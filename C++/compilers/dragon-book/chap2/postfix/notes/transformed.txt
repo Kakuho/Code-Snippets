@@ -1,0 +1,53 @@
+Complete:
+
+expr  -> term R             {R.i = term.value, expr.value = R.s}
+
+R     -> + term R1 |        {R1.i = term.value + R.i}
+                            {R.s = R1.s}
+
+         - term R1 |        {R1.i = term.value - R.i}
+                            {R.s = R1.s}
+
+         null               {R.s = R.i}
+
+
+term  -> factor RT          {RT.i = factor.value}
+                            {term.value = RT.s}
+
+RT    -> * factor RT_1 |    {RT_1.i = factor.value * RT.i}
+                            {RT.s = RT1.s}
+
+         / factor RT |      {RT_1.i = factor.value / RT.i}
+                            {RT.s = RT1.s}
+
+         null               {RT.s = RT.i}
+
+
+factor -> ( expr )          {factor.value = expr.value}
+       -> num               {factor.value = num.value}
+       -> id                {factor.value = id.value}
+
+factor -> ( expr )          {factor.value = expr.value}
+       -> num               {factor.value = num.value}
+       -> id                {factor.value = id.value}
+
+// ------------------------------------------------------ //
+
+Simplified Vers 1
+
+expr  -> term R             {R.i = term.value, expr.value = R.s}
+
+R     -> + term R1 |        {R1.i = term.value + R.i}
+                            {R.s = R1.s}
+
+         - term R1 |        {R1.i = term.value - R.i}
+                            {R.s = R1.s}
+
+         null               {R.s = R.i}
+
+term -> id                  {term.value = id.value}
+     -> num                 {term.num = num.value}
+
+Terminals:
+  
+  +, -, id, num

@@ -1,0 +1,193 @@
+the grammar we want
+
+expr  -> expr + term
+      -> expr - term
+      -> term
+
+term  -> term * factor
+      -> term / factor
+      -> factor
+
+factor -> ( expr )
+       -> num
+       -> id
+
+// ------------------------------------------------------ //
+
+Note:
+  
+  this is left recursive, so we need to transform the grammar
+
+Non terminals:
+  
+  +, -, *, /, (, ), num, id
+
+Simplfications:
+  
+  * num are any 64 bit integers
+
+  * identifiers can only be alphabetical, no special characters and no numbers.
+
+// ------------------------------------------------------ //
+
+the sdd we want
+
+grammar                   sdd
+
+s     -> expr             s.value = expr.value
+
+expr  -> expr + term      expr.value = expr.value + term.value
+      -> expr - term      expr.value = expr.value - term.value
+      -> term             expr.value = term.value
+
+term  -> term * factor    term.value = term.value * factor.value
+      -> term / factor    term.value = term.value / factor.value
+      -> factor           term.value = factor.value
+
+factor -> ( expr )        factor.value = expr.value
+       -> num             factor.value = num.value
+       -> id              factor.value = id.value
+
+
+// ------------------------------------------------------ //
+
+left recursive elimination
+
+grammar                   sdd
+
+s     -> expr             s.value = expr.value
+
+expr  -> expr + term      expr.value = expr.value + term.value
+      -> expr - term      expr.value = expr.value - term.value
+      -> term             expr.value = term.value
+
+
+term  -> term * factor    term.value = term.value * factor.value
+      -> term / factor    term.value = term.value / factor.value
+      -> factor           term.value = factor.value
+
+
+factor -> ( expr )        factor.value = expr.value
+       -> num             factor.value = num.value
+       -> id              factor.value = id.value
+
+
+// ------------------------------------------------------ //
+
+left recursive elimination for expr
+
+expr  -> expr + term      expr.value = expr.value + term.value
+      -> expr - term      expr.value = expr.value - term.value
+      -> term             expr.value = term.value
+
+expr  -> expr + term      
+      -> expr - term      
+      -> term             
+
+expr  -> expr + term      
+      -> term             
+      
+------
+
+I think the idea is to compute inherited attributes first 
+and then compute the synthesised attributes
+
+expr  -> term R             
+
+R     -> + term R1 |        
+         - term R1 |        
+         null
+
+
+-----
+
+
+expr  -> term R             {R.i = term.value, expr.value = R.s}
+
+R     -> + term R1 |        {R1.i = term.value + R.i}
+                            {R.s = R1.s}
+
+         - term R1 |        {R1.i = term.value - R.i}
+                            {R.s = R1.s}
+
+         null               {R.s = R.i}
+
+// ------------------------------------------------------ //
+
+two level left recursive and SDD def
+
+expr  -> term RE
+
+RE     -> + term RE |        
+          - term RE |        
+          null
+
+term  -> term * factor    
+      -> term / factor    
+      -> factor 
+-----
+
+expr  -> term RE
+
+RE     -> + term RE |        
+          - term RE |        
+          null
+
+term  -> term * factor    
+      -> term / factor    
+      -> factor 
+
+
+-----
+
+term  -> factor RT
+
+RT -> * factor RT |
+      / factor RT |
+      null
+
+SDD time
+
+term  -> factor RT        {RT.i = factor.value}
+                          {term.value = RT.s}
+
+RT -> * factor RT_1 |     {RT_1.i = factor.value * RT.i}
+                          {RT.s = RT1.s}
+
+      / factor RT |       {RT_1.i = factor.value / RT.i}
+                          {RT.s = RT1.s}
+
+      null                {RT.s = RT.i}
+
+----- 
+
+combining expr and term together
+
+expr  -> term R             {R.i = term.value, expr.value = R.s}
+
+R     -> + term R1 |        {R1.i = term.value + R.i}
+                            {R.s = R1.s}
+
+         - term R1 |        {R1.i = term.value - R.i}
+                            {R.s = R1.s}
+
+         null               {R.s = R.i}
+
+term  -> factor RT          {RT.i = factor.value}
+                            {term.value = RT.s}
+
+RT -> * factor RT_1 |       {RT_1.i = factor.value * RT.i}
+                            {RT.s = RT1.s}
+
+      / factor RT |         {RT_1.i = factor.value / RT.i}
+                            {RT.s = RT1.s}
+
+      null                  {RT.s = RT.i}
+
+// ------------------------------------------------------ //
+
+now we implement factor
+
+factor -> ( expr )        {factor.value = expr.value}
+       -> num             {factor.value = num.value}
+       -> id              {factor.value = id.value}

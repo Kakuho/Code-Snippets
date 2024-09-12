@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/tests.dir/src/lexer.cpp.o -o tests  /usr/local/lib64/libCatch2Main.a /usr/local/lib64/libCatch2.a 
