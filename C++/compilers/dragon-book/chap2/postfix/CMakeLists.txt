@@ -20,6 +20,7 @@ target_compile_options(kexpr PRIVATE -g -std=c++20)
 find_package(Catch2 3 REQUIRED)
 
 set(TEST_SRCS 
+    tests/nodes.cpp
    )
 
 add_executable(tests ${TEST_SRCS} ${CXX_SRCS})
