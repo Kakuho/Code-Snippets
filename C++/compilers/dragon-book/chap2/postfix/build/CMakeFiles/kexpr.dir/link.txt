@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/kexpr.dir/src/main.cpp.o CMakeFiles/kexpr.dir/src/lexer.cpp.o -o kexpr 

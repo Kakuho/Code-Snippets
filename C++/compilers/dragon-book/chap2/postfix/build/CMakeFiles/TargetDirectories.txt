@@ -1,4 +1,0 @@
-/home/ka/C++/snippets/compilers/compilers/dragon-book/chap2/postfix/build/CMakeFiles/kexpr.dir
-/home/ka/C++/snippets/compilers/compilers/dragon-book/chap2/postfix/build/CMakeFiles/tests.dir
-/home/ka/C++/snippets/compilers/compilers/dragon-book/chap2/postfix/build/CMakeFiles/edit_cache.dir
-/home/ka/C++/snippets/compilers/compilers/dragon-book/chap2/postfix/build/CMakeFiles/rebuild_cache.dir
