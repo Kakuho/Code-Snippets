@@ -13,7 +13,8 @@ enum class Symbol{
   leftbracket,
   rightbracket,
   number,
-  ident
+  ident,
+  invalid
 };
 
 struct Token{

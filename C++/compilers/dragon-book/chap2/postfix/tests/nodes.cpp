@@ -3,11 +3,11 @@
 #include <cstdint>
 
 
-#include "./../src/syntax_tree_node.hpp"
-#include "./../src/syntax_tree_nodes/ident_node.hpp"
-#include "./../src/syntax_tree_nodes/op_node.hpp"
-#include "./../src/syntax_tree_nodes/expr_node.hpp"
-#include "./../src/syntax_tree_nodes/start_node.hpp"
+//#include "./../src/syntax_tree_node.hpp"
+#include "./../src/syntax_tree_nodes_template/ident_node.hpp"
+#include "./../src/syntax_tree_nodes_template/op_node.hpp"
+#include "./../src/syntax_tree_nodes_template/expr_node.hpp"
+#include "./../src/syntax_tree_nodes_template/start_node.hpp"
 
 TEST_CASE( "Syntax tree Node tests", "[syntax_node]" ) {
   SECTION( "syntaxnode construction" ) {
